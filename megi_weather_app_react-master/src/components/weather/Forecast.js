@@ -2,16 +2,16 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "../../assets/styles/customstyles/forecast.scss";
 import Accordion from "../Accordion";
-/* import trees from "../../../public/images/trees.jpg";
-import clear from "../../../public/images/clear.jpg";
-import cloudy from "../../../public/images/cloud.jpg";
-import lightning from "../../../public/images/lightning.jpg";
-import rainy from "../../../public/images/rainy.jpg";
-import snowy from "../../../public/images/snowy.jpg";
-import sunny from "../../../public/images/sunny.jpg"; */
+import trees from "../../images/trees.jpg";
+import clear from "../../images/clear.jpg";
+import cloudy from "../../images/cloud.jpg";
+import lightning from "../../images/lightning.jpg";
+import rainy from "../../images/rainy.jpg";
+import snowy from "../../images/snow.jpg";
+import sunny from "../../images/sunny.jpg";
 
 export default function Forecast() {
-  /* const bgImage = [trees, clear, cloudy, lightning, rainy, snowy, sunny]; */
+  const bgImage = [trees, clear, cloudy, lightning, rainy, snowy, sunny];
 
   const d = new Date();
 
@@ -67,7 +67,7 @@ export default function Forecast() {
     <div className="forecast">
       <div
         id="forecast-card"
-        className="animate__animated animate__fadeInDown mx-auto my-8 w-[90%] md:w-[40%] lg:w-3/12 h-[40rem] lg:h-[50rem] rounded-3xl shadow-2xl"
+        className="animate__animated animate__fadeInDown mx-auto my-8 w-[90%] md:w-[40%] lg:w-[30%] h-[40rem] lg:h-[50rem] rounded-3xl shadow-2xl"
       >
         <div className="flex justify-center">
           <input
@@ -84,14 +84,17 @@ export default function Forecast() {
           </p>
         ) : (
           <div className="mx-auto flex justify-center">
-            <div id="info" className="text-white">
+            <div
+              id="info"
+              className="flex flex-col justify-center items-center text-white"
+            >
               <p className="date text-center text-sm italic animate__animated animate__fadeIn">
-                {day}.&nbsp;{date} {month} {year}
+                {day},&nbsp;{date} {month} {year}.
               </p>
-              <h1 className="my-4 md:my-8 text-2xl md:text-4xl animate__animated animate__fadeIn">
+              <h1 className="mt-8 mb-4 text-2xl md:text-4xl animate__animated animate__fadeIn">
                 <span className="capitalize">{search}</span>&nbsp;
                 <span className="uppercase">
-                  <sup>{city.sys.country}</sup>
+                  <sup className="text-[1rem] -top-4">{city.sys.country}</sup>
                 </span>
               </h1>
               <img
@@ -102,10 +105,9 @@ export default function Forecast() {
               <p className="mt-4 md:mt-8 mb-2 md:mb-4 text-center text-2xl md:text-3xl animate__animated animate__fadeIn">
                 {Math.round(city.main.temp)}&deg;C
               </p>
-              <p className="text-center text-md md:text-lg animate__animated animate__zoomIn">
+              <p className="text-center text-md md:text-lg capitalize animate__animated animate__fadeIn">
                 {city.weather[0].description}
               </p>
-              <div className="flex justify-center mx-auto my-4">
                 <Accordion
                   title="More"
                   feelsLike={city.main.feels_like}
@@ -114,12 +116,11 @@ export default function Forecast() {
                   windSpeed={city.wind.speed}
                   humidity={city.main.humidity}
                 />
-              </div>
             </div>
           </div>
         )}
         <div className="flex justify-center">
-          <p className="absolute bottom-8 text-white text-xs">
+          <p className="absolute bottom-8 text-white text-sm">
             &copy;Megi Serjanaj ~ February 2022.
           </p>
         </div>
