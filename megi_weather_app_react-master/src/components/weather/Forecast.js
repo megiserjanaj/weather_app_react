@@ -11,7 +11,23 @@ import snowy from "../../images/snow.jpg";
 import sunny from "../../images/sunny.jpg";
 
 export default function Forecast() {
-  const bgImage = [trees, clear, cloudy, lightning, rainy, snowy, sunny];
+  const bgImage = {
+    clear: clear,
+    Clouds: cloudy,
+    Thunderstorm: lightning,
+    Rain: rainy,
+    Drizzle: rainy,
+    Snow: snowy,
+    Mist: cloudy,
+    Smoke: cloudy,
+    Haze: cloudy,
+    Dust: cloudy,
+    Fog: cloudy,
+    Sand: cloudy,
+    Ash: cloudy,
+    Squall: cloudy,
+    Tornado: cloudy,
+  };
 
   const d = new Date();
 
@@ -45,6 +61,7 @@ export default function Forecast() {
 
   const [city, setCity] = useState(null);
   const [search, setSearch] = useState(null);
+  const [bg, setBg] = useState(trees); // default background image
 
   useEffect(() => {
     if (search) {
@@ -54,12 +71,16 @@ export default function Forecast() {
         )
         .then((res) => {
           setCity(res.data);
+          const weatherMain = res.data.weather[0].main;
+          setBg(bgImage[weatherMain] || trees); // set background image based on weather
         })
         .catch(() => {
           setCity(null);
+          setBg(trees); // reset to default if error occurs
         });
     } else {
       setCity(null);
+      setBg(trees); // reset to default if no search
     }
   }, [search]);
 
@@ -68,6 +89,7 @@ export default function Forecast() {
       <div
         id="forecast-card"
         className="animate__animated animate__fadeInDown mx-auto my-8 w-[90%] md:w-[40%] lg:w-[30%] h-[40rem] lg:h-[50rem] rounded-3xl shadow-2xl"
+        style={{ backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className="flex justify-center">
           <input
@@ -108,20 +130,20 @@ export default function Forecast() {
               <p className="text-center text-md md:text-lg capitalize animate__animated animate__fadeIn">
                 {city.weather[0].description}
               </p>
-                <Accordion
-                  title="More"
-                  feelsLike={city.main.feels_like}
-                  sunrise={city.sys.sunrise}
-                  sunset={city.sys.sunset}
-                  windSpeed={city.wind.speed}
-                  humidity={city.main.humidity}
-                />
+              <Accordion
+                title="More"
+                feelsLike={city.main.feels_like}
+                sunrise={city.sys.sunrise}
+                sunset={city.sys.sunset}
+                windSpeed={city.wind.speed}
+                humidity={city.main.humidity}
+              />
             </div>
           </div>
         )}
         <div className="flex justify-center">
           <p className="absolute bottom-8 text-white text-sm">
-            &copy;Megi Serjanaj ~ February 2022.
+            &copy;Lois Serjanaj ~ May 2024.
           </p>
         </div>
       </div>
